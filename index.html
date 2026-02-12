@@ -461,7 +461,7 @@
     <div class="progress-wrap" aria-live="polite">
       <div class="progress-header">
         <div class="progress-title" id="progress-title">Secao 1 de 10 - Objetivo e Ocupacao</div>
-        <div class="progress-meta" id="progress-meta">Pergunta 1 de 25 - 0% concluido</div>
+        <div class="progress-meta" id="progress-meta">Pergunta 1 de 26 - 0% concluido</div>
       </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progress-fill"></div>
@@ -496,6 +496,7 @@
         title: "Objetivo e Ocupacao",
         icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M6 8h12"/><path d="M9 16h6"/></svg>`,
         questions: [
+          { id: "Q0", text: "Qual o nome da empresa?", type: "text" },
           { id: "Q1", text: "O foco principal e aumentar reservas em quais dias ou horarios?", type: "text" },
           { id: "Q2", text: "Existe meta de ocupacao mensal ou por noite?", type: "text" },
           { id: "Q4", text: "Quais dias precisam de reforco de ocupacao?", type: "text" },
@@ -810,6 +811,22 @@
       return answers;
     }
 
+    function resetForm() {
+      // Text and textarea
+      document.querySelectorAll('[data-qid]').forEach((el) => {
+        if (el.tagName === 'SELECT') {
+          el.selectedIndex = 0;
+        } else {
+          el.value = "";
+        }
+      });
+
+      // Radios and checkboxes
+      document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach((el) => {
+        el.checked = false;
+      });
+    }
+
     async function submitForm() {
       setStatus("");
       nextBtn.disabled = true;
@@ -885,6 +902,7 @@
 
     stepsEl.addEventListener('click', (event) => {
       if (event.target && event.target.id === 'back-to-start') {
+        resetForm();
         goTo(0);
       }
     });
