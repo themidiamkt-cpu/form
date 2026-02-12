@@ -1,13 +1,900 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>marketing-diagnosis-form</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Briefing Estrategico - Reservas</title>
+  <!-- Premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== Base ===== */
+    :root {
+      --bg: #f5f4f2;
+      --bg-2: #fdfbf8;
+      --card: #ffffff;
+      --text: #141414;
+      --muted: #6f6f6f;
+      --primary: #171717;
+      --accent: #e1a547;
+      --accent-2: #f3c67a;
+      --stroke: #e9e5df;
+      --shadow: 0 12px 30px rgba(20, 20, 20, 0.08);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --focus: 0 0 0 3px rgba(225, 165, 71, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 10% -10%, #fff 0%, var(--bg) 60%),
+                  radial-gradient(900px 500px at 110% 10%, #fff 0%, var(--bg-2) 55%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 40px auto 80px;
+      padding: 0 24px;
+    }
+
+    /* ===== Header ===== */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #111 0%, #353535 100%);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: var(--shadow);
+    }
+
+    .title {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 6px 0 0;
+      max-width: 560px;
+    }
+
+    /* ===== Progress ===== */
+    .progress-wrap {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .progress-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .progress-title {
+      font-weight: 500;
+    }
+
+    .progress-meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      width: 100%;
+      background: #f0ede8;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 999px;
+      transition: width 400ms ease;
+    }
+
+    /* ===== Card ===== */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+
+    .steps {
+      position: relative;
+      transition: height 300ms ease;
+      min-height: 200px;
+    }
+
+    .step {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 300ms ease, transform 300ms ease;
+    }
+
+    .step.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(140deg, #1b1b1b 0%, #2e2e2e 100%);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .section-desc {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .question-meta {
+      margin: 10px 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* ===== Inputs ===== */
+    .field {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input,
+    .textarea,
+    .select {
+      width: 100%;
+      padding: 18px 16px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #dcd7d0;
+      background: #fff;
+      font-size: 15px;
+      transition: border 200ms ease, box-shadow 200ms ease;
+    }
+
+    .input:focus,
+    .textarea:focus,
+    .select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: var(--focus);
+    }
+
+    .textarea {
+      min-height: 160px;
+      resize: vertical;
+    }
+
+    /* Floating label pattern */
+    .float-label {
+      position: relative;
+    }
+
+    .float-label label {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      font-size: 14px;
+      color: var(--muted);
+      pointer-events: none;
+      transition: transform 200ms ease, font-size 200ms ease, color 200ms ease;
+      background: #fff;
+      padding: 0 6px;
+    }
+
+    .float-label input::placeholder,
+    .float-label textarea::placeholder {
+      color: transparent;
+    }
+
+    .float-label input:focus + label,
+    .float-label input:not(:placeholder-shown) + label,
+    .float-label textarea:focus + label,
+    .float-label textarea:not(:placeholder-shown) + label {
+      transform: translateY(-22px);
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    /* Radio cards */
+    .choices {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .choice {
+      position: relative;
+    }
+
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .choice span {
+      display: block;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #ded8d1;
+      background: #faf8f4;
+      transition: border 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    }
+
+    .choice input:checked + span {
+      border-color: var(--accent);
+      box-shadow: var(--focus);
+      transform: translateY(-2px);
+      background: #fff;
+    }
+
+    /* Checkboxes */
+    .checklist {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #e1dcd6;
+      background: #faf8f4;
+      transition: border 200ms ease, box-shadow 200ms ease;
+    }
+
+    .check input {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1px solid #c9c2ba;
+      display: grid;
+      place-items: center;
+      background: #fff;
+    }
+
+    .check input:checked {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+    }
+
+    .check input:checked::after {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 3px;
+      background: #fff;
+    }
+
+    /* Buttons */
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--primary);
+      border-color: #ded8d1;
+    }
+
+    .btn.primary {
+      background: linear-gradient(120deg, var(--primary), #2c2c2c 60%, var(--accent));
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(17, 17, 17, 0.2);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(17, 17, 17, 0.25);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .form-status {
+      margin-top: 12px;
+      color: #9b3b2f;
+      font-size: 14px;
+      display: none;
+    }
+
+    .form-status.show {
+      display: block;
+    }
+
+    /* Success screen */
+    .success {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .success h2 {
+      margin-top: 18px;
+      margin-bottom: 10px;
+    }
+
+    .success p {
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 24px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      header {
+        align-items: flex-start;
+      }
+
+      .card {
+        padding: 24px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        margin: 24px auto 60px;
+        padding: 0 16px;
+      }
+
+      .progress-wrap {
+        padding: 14px 16px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .actions {
+        justify-content: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <header>
+      <div>
+        <div class="brand">
+          <div class="logo">BR</div>
+          <div>
+            <h1 class="title">Briefing Estrategico - Reservas</h1>
+            <p class="subtitle">Formulario consultivo para capturar informacoes estrategicas e elevar o nivel de ocupacao do restaurante.</p>
+          </div>
+        </div>
+      </div>
+      <div class="subtitle">Projeto High-Ticket - Estrategia de Crescimento</div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-wrap" aria-live="polite">
+      <div class="progress-header">
+        <div class="progress-title" id="progress-title">Secao 1 de 10 - Objetivo e Ocupacao</div>
+        <div class="progress-meta" id="progress-meta">Pergunta 1 de 25 - 0% concluido</div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="card">
+      <form id="briefing-form" novalidate>
+        <!-- Steps will be rendered here by JS -->
+        <div class="steps" id="steps"></div>
+
+        <!-- Status / Error Message -->
+        <div class="form-status" id="form-status" role="alert"></div>
+
+        <!-- Actions -->
+        <div class="actions">
+          <button class="btn secondary" type="button" id="prev-btn">Voltar</button>
+          <button class="btn primary" type="button" id="next-btn">Proximo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ===== Config =====
+    const WEBHOOK_URL = ""; // TODO: cole aqui a URL do webhook do n8n
+
+    // ===== Data =====
+    const sections = [
+      {
+        title: "Objetivo e Ocupacao",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M6 8h12"/><path d="M9 16h6"/></svg>`,
+        questions: [
+          { id: "Q1", text: "O foco principal e aumentar reservas em quais dias ou horarios?", type: "text" },
+          { id: "Q2", text: "Existe meta de ocupacao mensal ou por noite?", type: "text" },
+          { id: "Q4", text: "Quais dias precisam de reforco de ocupacao?", type: "text" },
+          {
+            id: "Q5",
+            text: "Existe diferenca relevante entre almoco e jantar?",
+            type: "radio",
+            options: ["Sim", "Nao"]
+          },
+          {
+            id: "Q6",
+            text: "Ha horarios que costumam ficar ociosos?",
+            type: "radio",
+            options: ["Sim", "Nao"]
+          }
+        ]
+      },
+      {
+        title: "Comportamento de Reserva",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>`,
+        questions: [
+          { id: "Q8", text: "O cliente costuma reservar com quanta antecedencia?", type: "text" },
+          {
+            id: "Q9",
+            text: "Reservas acontecem mais por planejamento ou impulso?",
+            type: "radio",
+            options: ["Planejamento", "Impulso", "Equilibrado"]
+          },
+          { id: "Q11", text: "Qual horario e mais dificil de preencher?", type: "text" }
+        ]
+      },
+      {
+        title: "Perfil das Mesas",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M4 21c1.5-4 14.5-4 16 0"/></svg>`,
+        questions: [
+          { id: "Q13", text: "A maioria das reservas e para quantas pessoas?", type: "text" },
+          { id: "Q15", text: "Grupos grandes sao frequentes?", type: "radio", options: ["Sim", "Nao"] }
+        ]
+      },
+      {
+        title: "Ocasioes",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.4 1 6.4-5.5-3-5.5 3 1-6.4L3 8.9 9 8l3-6z"/></svg>`,
+        questions: [
+          { id: "Q17", text: "Principais motivos de reserva no restaurante?", type: "textarea" },
+          { id: "Q18", text: "Existe alta procura em datas comemorativas? Quais?", type: "textarea" }
+        ]
+      },
+      {
+        title: "Experiencia e Posicionamento",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l4 7h-8l4-7z"/><path d="M4 10h16v10H4z"/></svg>`,
+        questions: [
+          {
+            id: "Q19",
+            text: "O restaurante e percebido como (sofisticado, romantico, familiar, casual premium)?",
+            type: "checkbox",
+            options: ["Sofisticado", "Romantico", "Familiar", "Casual premium"]
+          },
+          {
+            id: "Q20",
+            text: "O ambiente pesa mais que a gastronomia na decisao de reservar?",
+            type: "radio",
+            options: ["Ambiente", "Gastronomia", "Equilibrado"]
+          }
+        ]
+      },
+      {
+        title: "Elasticidade",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l8-8 4 4 4-4"/><path d="M4 5v14h14"/></svg>`,
+        questions: [
+          {
+            id: "Q22",
+            text: "Promocoes ajudam ou desvalorizam a percepcao da marca?",
+            type: "radio",
+            options: ["Ajudam", "Desvalorizam", "Depende da oferta"]
+          },
+          {
+            id: "Q25",
+            text: "Ha resistencia do cliente em precisar reservar?",
+            type: "radio",
+            options: ["Sim", "Nao", "As vezes"]
+          }
+        ]
+      },
+      {
+        title: "Concorrencia",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M7 6h10"/><path d="M7 18h10"/></svg>`,
+        questions: [
+          { id: "Q26", text: "Quais restaurantes disputam reserva com voces?", type: "textarea" },
+          { id: "Q29", text: "Onde voces sao superiores na experiencia?", type: "textarea" }
+        ]
+      },
+      {
+        title: "Publico-Alvo",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20c1.5-4 8.5-4 10 0"/><path d="M12 20c1.5-4 8.5-4 10 0"/></svg>`,
+        questions: [
+          { id: "Q30", text: "Quem mais reserva hoje?", type: "textarea" },
+          {
+            id: "Q31",
+            text: "Faixa etaria predominante?",
+            type: "select",
+            options: ["Selecione", "18-24", "25-34", "35-44", "45-54", "55+", "Nao sei"]
+          },
+          { id: "Q32", text: "Publico mais local ou de outras regioes?", type: "radio", options: ["Local", "Outras regioes", "Misto"] }
+        ]
+      },
+      {
+        title: "Conversao",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`,
+        questions: [
+          { id: "Q35", text: "Quais duvidas mais travam a decisao?", type: "textarea" },
+          { id: "Q36", text: "Preco e objecao comum?", type: "radio", options: ["Sim", "Nao", "As vezes"] }
+        ]
+      },
+      {
+        title: "Estrutura Digital",
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M8 20h8"/></svg>`,
+        questions: [
+          {
+            id: "Q38",
+            text: "Canal principal de reservas hoje?",
+            type: "select",
+            options: ["Selecione", "WhatsApp/Telefone", "Instagram/Redes sociais", "Site com reserva", "App de reservas", "Presencial/Walk-in", "Outro"]
+          },
+          { id: "Q39", text: "Possui link direto de reserva?", type: "radio", options: ["Sim", "Nao"] }
+        ]
+      }
+    ];
+
+    // ===== Rendering =====
+    const stepsEl = document.getElementById('steps');
+    const formStatus = document.getElementById('form-status');
+    const progressFill = document.getElementById('progress-fill');
+    const progressTitle = document.getElementById('progress-title');
+    const progressMeta = document.getElementById('progress-meta');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+
+    const stepData = [];
+    sections.forEach((section, sectionIndex) => {
+      section.questions.forEach((q, questionIndex) => {
+        stepData.push({
+          sectionIndex,
+          sectionTitle: section.title,
+          sectionIcon: section.icon,
+          questionIndex,
+          questionCountInSection: section.questions.length,
+          ...q
+        });
+      });
+    });
+
+    const totalSections = sections.length;
+    const totalQuestions = stepData.length;
+
+    function renderStep(step, globalIndex) {
+      const wrapper = document.createElement('section');
+      wrapper.className = 'step';
+      wrapper.dataset.sectionIndex = step.sectionIndex;
+      wrapper.dataset.sectionTitle = step.sectionTitle;
+      wrapper.dataset.questionGlobal = globalIndex;
+      wrapper.dataset.questionId = step.id;
+
+      const header = `
+        <div class="section-header">
+          <div class="section-icon" aria-hidden="true">${step.sectionIcon}</div>
+          <div>
+            <h2 class="section-title">${step.sectionTitle}</h2>
+            <p class="section-desc">Pergunta estrategica para aumentar reservas.</p>
+          </div>
+        </div>
+      `;
+
+      const meta = `<div class="question-meta">Pergunta ${globalIndex + 1} de ${totalQuestions}</div>`;
+
+      let field = '';
+      if (step.type === 'text') {
+        field = `
+          <div class="field float-label">
+            <input class="input" type="text" data-qid="${step.id}" placeholder=" " />
+            <label>${step.text}</label>
+          </div>
+        `;
+      }
+
+      if (step.type === 'textarea') {
+        field = `
+          <div class="field float-label">
+            <textarea class="textarea" data-qid="${step.id}" placeholder=" "></textarea>
+            <label>${step.text}</label>
+          </div>
+        `;
+      }
+
+      if (step.type === 'radio') {
+        const options = step.options.map((opt) => `
+          <label class="choice">
+            <input type="radio" name="${step.id}" value="${opt}" />
+            <span>${opt}</span>
+          </label>
+        `).join('');
+        field = `
+          <div class="field">
+            <div class="question-meta" style="margin-bottom: 12px;">${step.text}</div>
+            <div class="choices">${options}</div>
+          </div>
+        `;
+      }
+
+      if (step.type === 'checkbox') {
+        const options = step.options.map((opt) => `
+          <label class="check">
+            <input type="checkbox" name="${step.id}" value="${opt}" /> ${opt}
+          </label>
+        `).join('');
+        field = `
+          <div class="field">
+            <div class="question-meta" style="margin-bottom: 12px;">${step.text}</div>
+            <div class="checklist">${options}</div>
+          </div>
+        `;
+      }
+
+      if (step.type === 'select') {
+        const options = step.options.map((opt) => `<option>${opt}</option>`).join('');
+        field = `
+          <div class="field">
+            <label class="section-desc" style="margin-bottom: 10px;">${step.text}</label>
+            <select class="select" data-qid="${step.id}">${options}</select>
+          </div>
+        `;
+      }
+
+      wrapper.innerHTML = header + meta + field;
+      return wrapper;
+    }
+
+    stepData.forEach((step, index) => {
+      stepsEl.appendChild(renderStep(step, index));
+    });
+
+    // Success step
+    const successStep = document.createElement('section');
+    successStep.className = 'step';
+    successStep.innerHTML = `
+      <div class="success">
+        <div class="section-icon" style="margin: 0 auto;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
+        </div>
+        <h2>Briefing enviado com sucesso</h2>
+        <p>Obrigado por compartilhar as informacoes. Nossa equipe vai estruturar uma estrategia premium focada em aumentar reservas e ocupacao.</p>
+        <button class="btn primary" type="button" id="back-to-start">Voltar ao inicio</button>
+      </div>
+    `;
+    stepsEl.appendChild(successStep);
+
+    // ===== Stepper =====
+    const steps = Array.from(document.querySelectorAll('.step'));
+    const totalSteps = totalQuestions;
+    let current = 0;
+
+    function setStatus(message) {
+      if (!formStatus) return;
+      formStatus.textContent = message || "";
+      formStatus.classList.toggle('show', Boolean(message));
+    }
+
+    function getProgressFraction(stepIndex) {
+      const step = stepData[stepIndex];
+      if (!step) return 0;
+      const sectionProgress = (step.questionIndex + 1) / step.questionCountInSection;
+      return (step.sectionIndex + sectionProgress) / totalSections;
+    }
+
+    function updateProgress() {
+      if (current >= totalSteps) return;
+      const step = stepData[current];
+      const sectionLabel = `Secao ${step.sectionIndex + 1} de ${totalSections} - ${step.sectionTitle}`;
+      const percent = Math.round(getProgressFraction(current) * 100);
+
+      progressFill.style.width = percent + '%';
+      progressTitle.textContent = sectionLabel;
+      progressMeta.textContent = `Pergunta ${current + 1} de ${totalQuestions} - ${percent}% concluido`;
+    }
+
+    function setContainerHeight() {
+      const activeStep = steps[current];
+      if (!activeStep) return;
+      const height = activeStep.offsetHeight;
+      stepsEl.style.height = height + 'px';
+    }
+
+    function collectAnswers() {
+      const answers = stepData.map((q) => {
+        let value = "";
+        if (q.type === 'text' || q.type === 'textarea' || q.type === 'select') {
+          const el = document.querySelector(`[data-qid="${q.id}"]`);
+          value = el ? el.value : "";
+        }
+        if (q.type === 'radio') {
+          const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+          value = selected ? selected.value : "";
+        }
+        if (q.type === 'checkbox') {
+          const selected = Array.from(document.querySelectorAll(`input[name="${q.id}"]:checked`));
+          value = selected.map((el) => el.value);
+        }
+        return { id: q.id, question: q.text, value };
+      });
+
+      return answers;
+    }
+
+    async function submitForm() {
+      setStatus("");
+      nextBtn.disabled = true;
+      const originalText = nextBtn.textContent;
+      nextBtn.textContent = "Enviando...";
+
+      const payload = {
+        submittedAt: new Date().toISOString(),
+        answers: collectAnswers()
+      };
+
+      try {
+        if (!WEBHOOK_URL) {
+          goTo(totalSteps);
+          return;
+        }
+
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        goTo(totalSteps);
+      } catch (error) {
+        setStatus("Nao foi possivel enviar agora. Verifique o webhook e tente novamente.");
+        nextBtn.disabled = false;
+        nextBtn.textContent = originalText;
+      }
+    }
+
+    function goTo(index) {
+      steps[current].classList.remove('active');
+      current = index;
+      steps[current].classList.add('active');
+
+      const progressWrap = document.querySelector('.progress-wrap');
+      const isSuccess = current >= totalSteps;
+      progressWrap.style.display = isSuccess ? 'none' : 'flex';
+
+      prevBtn.style.visibility = current === 0 ? 'hidden' : 'visible';
+      nextBtn.textContent = current === totalSteps - 1 ? 'Enviar' : 'Proximo';
+
+      if (isSuccess) {
+        nextBtn.style.display = 'none';
+        prevBtn.style.display = 'none';
+      } else {
+        nextBtn.style.display = 'inline-flex';
+        prevBtn.style.display = 'inline-flex';
+      }
+
+      setStatus("");
+      updateProgress();
+      setContainerHeight();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (current < totalSteps - 1) {
+        goTo(current + 1);
+      } else if (current === totalSteps - 1) {
+        submitForm();
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (current > 0) goTo(current - 1);
+    });
+
+    stepsEl.addEventListener('click', (event) => {
+      if (event.target && event.target.id === 'back-to-start') {
+        goTo(0);
+      }
+    });
+
+    window.addEventListener('resize', setContainerHeight);
+
+    // Init
+    steps[0].classList.add('active');
+    updateProgress();
+    setContainerHeight();
+    prevBtn.style.visibility = 'hidden';
+  </script>
+</body>
