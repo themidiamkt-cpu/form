@@ -497,20 +497,15 @@
         questions: [
           { id: "Q0", text: "Qual o nome da empresa?", type: "text" },
           { id: "Q1", text: "O foco principal e aumentar reservas em quais dias ou horarios?", type: "text" },
-          { id: "Q2", text: "Existe meta de ocupacao mensal ou por noite?", type: "text" },
+          { id: "Q2", text: "Existe meta de ocupacao mensal ou por noite? Se sim, qual (percentual ou numero)?", type: "text" },
           { id: "Q4", text: "Quais dias precisam de reforco de ocupacao?", type: "text" },
           {
             id: "Q5",
-            text: "Existe diferenca relevante entre almoco e jantar?",
+            text: "Existe diferenca de ocupacao relevante entre almoco e jantar?",
             type: "radio",
             options: ["Sim", "Nao"]
           },
-          {
-            id: "Q6",
-            text: "Ha horarios que costumam ficar ociosos?",
-            type: "radio",
-            options: ["Sim", "Nao"]
-          }
+          { id: "Q6", text: "Quais horarios costumam ficar ociosos?", type: "text" }
         ]
       },
       {
@@ -524,7 +519,7 @@
             type: "radio",
             options: ["Planejamento", "Impulso", "Equilibrado"]
           },
-          { id: "Q11", text: "Qual horario e mais dificil de preencher?", type: "text" }
+          { id: "Q11", text: "Qual horario e mais disputado?", type: "text" }
         ]
       },
       {
@@ -605,8 +600,8 @@
         title: "Conversao",
         icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`,
         questions: [
-          { id: "Q35", text: "Quais duvidas mais travam a decisao?", type: "textarea" },
-          { id: "Q36", text: "Preco e objecao comum?", type: "radio", options: ["Sim", "Nao", "As vezes"] }
+          { id: "Q35", text: "Quais duvidas mais travam a decisao de concluir a reserva?", type: "textarea" },
+          { id: "Q36", text: "Preço é objeção comum?", type: "radio", options: ["Sim", "Nao", "As vezes"] }
         ]
       },
       {
